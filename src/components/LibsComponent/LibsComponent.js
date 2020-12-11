@@ -45,6 +45,7 @@ export default function LibsComponent() {
       <div>
         <Button
           type="link"
+          className='text'
           onClick={() => {
             dispatch(filterLibs(allLibs, "toHighest"));
           }}
@@ -55,6 +56,7 @@ export default function LibsComponent() {
       <div>
         <Button
           type="link"
+          className='text'
           onClick={() => {
             dispatch(filterLibs(allLibs, "toLowest"));
           }}
@@ -76,7 +78,7 @@ export default function LibsComponent() {
     <>
       <div className="container">
         <div className="demo-infinite-container">
-          <h1>Библиотеки по регионам</h1>
+          <h1 className="title">Библиотеки РФ</h1>
           {!loading ? (
             <>
               <Search
@@ -88,7 +90,7 @@ export default function LibsComponent() {
               />
               <br />
               <Popover content={content} title={null} trigger="click">
-                <Button type="link" onClick={sort}>
+                <Button className='text' type="link" onClick={sort}>
                   Сортировать
                 </Button>
               </Popover>
@@ -99,7 +101,7 @@ export default function LibsComponent() {
                     <List.Item.Meta
                       title={
                         <Link className="link" to={`/library/${item.order}`}>
-                          {item.fullname}
+                          <p className="text">{item.fullname}</p>
                         </Link>
                       }
                       description={`Всего библиотек в регионе: ${item.libraries}`}

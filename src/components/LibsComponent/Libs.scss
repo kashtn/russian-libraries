@@ -1,6 +1,11 @@
 .container {
   display: flex;
   justify-content: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Montserrat', sans-serif;
 }
 .demo-infinite-container {
   border: 1px solid #e8e8e8;
@@ -35,6 +40,12 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+.title{
+  font-weight: 800;
+}
+.text{
+  font-weight: 600;
+}
 
 
 .libContainer{
@@ -43,6 +54,8 @@
   flex-direction: column;
   width: 100vw;
   margin-top: 20px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
 }
 .linkBtn{
   margin-bottom: 10px;
