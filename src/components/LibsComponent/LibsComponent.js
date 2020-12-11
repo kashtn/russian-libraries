@@ -1,50 +1,120 @@
 import { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { getAllLibs, filterLibs } from "../../redux/actions";
+import { List, Spin, Input, Button, Popover } from "antd";
+import "antd/dist/antd.css";
+import "./Libs.scss";
+
+const { Search } = Input;
 
 export default function LibsComponent() {
-  const [allLibs, setAllLibs] = useState([]);
-  const history = useHistory();
+  const dispatch = useDispatch();
+  const { allLibs } = useSelector((state) => state);
+  const { loading } = useSelector((state) => state);
 
-  async function getAllLibs() {
-    const url = "https://cors-anywhere.herokuapp.com/";
-    const response = await fetch(
-      url +
-        "https://data.gov.ru/opendata/7705851331-statlibrary/data-20161110T1744.json"
-    );
-    const result = await response.json();
-    console.log(result);
-    setAllLibs(result);
-  }
+  const [region, setRegion] = useState();
+
+  const libs = region
+    ? allLibs.filter((lib) => {
+        let terrWords = lib.territory.split(" ");
+        let flag = false;
+        terrWords.map((word) => {
+          if (word.toLowerCase().startsWith(region.toLowerCase())) {
+            flag = true;
+          }
+        });
+        if (flag) {
+          return lib;
+        }
+      })
+    : allLibs;
+
+  const PreloadedState = JSON.parse(window.localStorage.getItem("redux"));
+
   useEffect(() => {
-    getAllLibs();
-  }, []);
+    if (PreloadedState && PreloadedState.allLibs.length < 83) {
+      dispatch(getAllLibs());
+    } else if (!PreloadedState) {
+      dispatch(getAllLibs());
+    }
+  }, [dispatch]);
 
-  function showLib(order) {
-    history.push(`/library/${order}`);
+  const content = (
+    <>
+      <div>
+        <Button
+          type="link"
+          onClick={() => {
+            dispatch(filterLibs(allLibs, "toHighest"));
+          }}
+        >
+          По возрастанию
+        </Button>
+      </div>
+      <div>
+        <Button
+          type="link"
+          onClick={() => {
+            dispatch(filterLibs(allLibs, "toLowest"));
+          }}
+        >
+          По убыванию
+        </Button>
+      </div>
+    </>
+  );
+
+  function sort() {
+    libs.sort((a, b) => {
+      console.log(a, b);
+      return a.libraries - b.libraries;
+    });
   }
 
   return (
     <>
-      <h1>Libraries</h1>
-      <ul>
-        <h2>Регионы</h2>
-        {allLibs.map((lib) => (
-          <>
-            <li key={lib.order}>
-              <button
-                key={lib.order}
-                href
-                onClick={() => {
-                  showLib(lib.order);
+      <div className="container">
+        <div className="demo-infinite-container">
+          <h1>Библиотеки по регионам</h1>
+          {!loading ? (
+            <>
+              <Search
+                placeholder="Поиск по региону"
+                onChange={(event) => {
+                  setRegion(event.target.value);
                 }}
-              >
-                {lib.territory}
-              </button>
-              <p> {lib.libraries} Библиотек в регионе</p>
-            </li>
-          </>
-        ))}
-      </ul>
+                style={{ width: 200 }}
+              />
+              <br />
+              <Popover content={content} title={null} trigger="click">
+                <Button type="link" onClick={sort}>
+                  Сортировать
+                </Button>
+              </Popover>
+              <List
+                dataSource={libs}
+                renderItem={(item) => (
+                  <List.Item key={item.id} className="linkField">
+                    <List.Item.Meta
+                      title={
+                        <Link className="link" to={`/library/${item.order}`}>
+                          {item.fullname}
+                        </Link>
+                      }
+                      description={`Всего библиотек в регионе: ${item.libraries}`}
+                    />
+                  </List.Item>
+                )}
+              ></List>
+            </>
+          ) : (
+            <div className="spin">
+              <Spin />
+            </div>
+          )}
+        </div>
+      </div>
     </>
   );
 }

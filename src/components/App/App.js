@@ -7,7 +7,6 @@ function App() {
   return (
     <>
       <Router history>
-        <Link to='/'>Home</Link>
         <Switch>
           <Route path="/library/:order">
             <Library />

@@ -1,0 +1,49 @@
+.container {
+  display: flex;
+  justify-content: center;
+}
+.demo-infinite-container {
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
+  overflow: auto;
+  padding: 8px 24px;
+  height: 98vh;
+  width: 50vw;
+  text-align: center;
+}
+.demo-loading-container {
+  position: absolute;
+  bottom: 40px;
+  width: 100%;
+  text-align: center;
+}
+[data-theme="dark"] .demo-infinite-container {
+  border: 1px solid #303030;
+}
+.linkField {
+  transition: 0.5s;
+}
+.linkField:hover {
+  background-color: rgb(247, 247, 247);
+  .link {
+    text-decoration: underline;
+  }
+}
+.spin {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+
+.libContainer{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100vw;
+  margin-top: 20px;
+}
+.linkBtn{
+  margin-bottom: 10px;
+}
