@@ -1,7 +1,6 @@
 import React, { FC, ReactElement, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import {useAppDispatch} from '../../redux/store'
 import { getAllLibs, filterLibs } from "../../redux/actions";
 import { List, Spin, Input, Button, Popover } from "antd";
 import { StateType } from "../../redux/reducer";
@@ -17,19 +16,16 @@ type LibsComponentType = {
 };
 
 const LibsComponent: FC<LibsComponentType> = (props): ReactElement => {
-  const dispatch = useAppDispatch();
-  const { allLibs, loading } = useSelector<AppState, StateType>(
-    (state) => state
-  );
-  // const { loading } = useSelector((state) => state);
+  const dispatch = useDispatch();
+  const { allLibs, loading } = useSelector<AppState, StateType>((state) => state);
 
   const [region, setRegion] = useState<string>();
 
   const libs: Ilib[] = region
     ? allLibs.filter((lib) => {
-        if (typeof lib.territory === "string") {        //!!!!!!!!!!check this out
-          let terrWords:string[] = lib.territory.split(" ");
-          let flag:boolean = false;
+        if (typeof lib.territory === "string") {
+          let terrWords: string[] = lib.territory.split(" ");
+          let flag: boolean = false;
           terrWords.map((word) => {
             if (word.toLowerCase().startsWith(region.toLowerCase())) {
               flag = true;
@@ -42,32 +38,15 @@ const LibsComponent: FC<LibsComponentType> = (props): ReactElement => {
       })
     : allLibs;
 
-    // const useLocalStorage = (key: string) => {
-    //   // initialize the value from localStorage
-    //   const [currentValue, setCurrentValue] = useState<string | null>(() =>
-    //     localStorage.getItem(key)
-    //   );
-    
-    //   // update localStorage when the currentValue changes via setCurrentValue
-    //   useEffect(() => {
-    //     localStorage.setItem(key, currentValue);
-    //   }, [key, currentValue]);
-    
-    //   // use as const to tell TypeScript this is a tuple
-    //   return [currentValue, setCurrentValue] as const;
-    // };
-
-  const PreloadedState:string | null = localStorage.getItem("redux");
-  const dispatch1 = useDispatch()
+  const PreloadedState: string | null = localStorage.getItem("redux");
 
   useEffect(() => {
-    if (PreloadedState && JSON.parse(PreloadedState).allLibs.length < 83 || !PreloadedState) {
-      dispatch1(getAllLibs());
-      // dispatch(getAllLibs());
-    } 
-    // else if (!PreloadedState) {
-    //   dispatch(getAllLibs());
-    // }
+    if (
+      (PreloadedState && JSON.parse(PreloadedState).allLibs.length < 83) ||
+      !PreloadedState
+    ) {
+      dispatch(getAllLibs());
+    }
   }, [dispatch]);
 
   const content = (
@@ -97,13 +76,6 @@ const LibsComponent: FC<LibsComponentType> = (props): ReactElement => {
     </>
   );
 
-  // function sort() {
-  //   libs.sort((a, b) => {
-  //     console.log(a, b);
-  //     return a.libraries - b.libraries;
-  //   });
-  // }
-
   return (
     <>
       <div className="container">
@@ -118,9 +90,7 @@ const LibsComponent: FC<LibsComponentType> = (props): ReactElement => {
           />
           <br />
           <Popover content={content} title={null} trigger="click">
-            <Button className="text" type="link" 
-            // onClick={sort}
-            >
+            <Button className="text" type="link">
               Сортировать
             </Button>
           </Popover>

@@ -9,9 +9,6 @@ import {
 } from "./actionTypes";
 import { AppDispatch } from "./store";
 
-import { ThunkAction, ThunkDispatch } from "redux-thunk";
-import { AnyAction } from "redux";
-
 export function loading(bool: boolean): LoadingAction {
   return {
     type: LOADING,
@@ -28,8 +25,6 @@ export function getAllLibs() {
         "https://data.gov.ru/opendata/7705851331-statlibrary/data-20161110T1744.json"
     );
     const result = await response.json();
-
-    console.log(result);
     dispatch(setAllLibs(result));
     dispatch(loading(false));
   };
@@ -43,9 +38,8 @@ export function setAllLibs(libs: Ilib[]): SetAllLibsAction {
 }
 
 export function filterLibs(libs: Ilib[], filter: string): FilteredAction {
-  let filtered;
   if (filter === "toHighest") {
-    filtered = libs.sort((first: Ilib, second: Ilib) => {
+    libs.sort((first: Ilib, second: Ilib) => {
       if (
         typeof first.libraries === "number" &&
         typeof second.libraries === "number"
@@ -55,7 +49,7 @@ export function filterLibs(libs: Ilib[], filter: string): FilteredAction {
       return 0;
     });
   } else if (filter === "toLowest") {
-    filtered = libs.sort((first: Ilib, second: Ilib) => {
+    libs.sort((first: Ilib, second: Ilib) => {
       if (
         typeof first.libraries === "number" &&
         typeof second.libraries === "number"

@@ -1,6 +1,5 @@
 import { createStore, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
-import { useDispatch } from "react-redux";
 import reducer from "./reducer";
 import thunkMiddleware from "redux-thunk";
 
@@ -19,4 +18,3 @@ store.subscribe(() => {
 export type AppState = ReturnType<typeof reducer>;
 
 export type AppDispatch = typeof store.dispatch;
-export const useAppDispatch = () => useDispatch<AppDispatch>();

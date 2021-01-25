@@ -5,12 +5,16 @@ import App from "./components/App/App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
+import { ConfigProvider } from "antd";
+import ruRU from "antd/lib/locale-provider/ru_RU";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <ConfigProvider locale={ruRU}>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </ConfigProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
