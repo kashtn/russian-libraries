@@ -13,7 +13,7 @@ export default function Library() {
 
   return (
     <>
-      <div className="libContainer">
+      <div className="oneLibContainer">
         <Button className="linkBtn" type="primary">
           <Link to="/" >
             Назад

@@ -10,8 +10,8 @@ const { Search } = Input;
 
 export default function LibsComponent() {
   const dispatch = useDispatch();
-  const { allLibs } = useSelector((state) => state);
-  const { loading } = useSelector((state) => state);
+  const { allLibs, loading } = useSelector((state) => state);
+  // const { loading } = useSelector((state) => state);
 
   const [region, setRegion] = useState();
 
@@ -45,7 +45,7 @@ export default function LibsComponent() {
       <div>
         <Button
           type="link"
-          className='text'
+          className="text"
           onClick={() => {
             dispatch(filterLibs(allLibs, "toHighest"));
           }}
@@ -56,7 +56,7 @@ export default function LibsComponent() {
       <div>
         <Button
           type="link"
-          className='text'
+          className="text"
           onClick={() => {
             dispatch(filterLibs(allLibs, "toLowest"));
           }}
@@ -77,23 +77,25 @@ export default function LibsComponent() {
   return (
     <>
       <div className="container">
-        <div className="demo-infinite-container">
+        <div className="topDataContainer">
           <h1 className="title">Библиотеки РФ</h1>
-          {!loading ? (
-            <>
-              <Search
-                placeholder="Поиск по региону"
-                onChange={(event) => {
-                  setRegion(event.target.value);
-                }}
-                style={{ width: 200 }}
-              />
-              <br />
-              <Popover content={content} title={null} trigger="click">
-                <Button className='text' type="link" onClick={sort}>
-                  Сортировать
-                </Button>
-              </Popover>
+          <Search
+            placeholder="Поиск по региону"
+            onChange={(event) => {
+              setRegion(event.target.value);
+            }}
+            style={{ width: 200 }}
+          />
+          <br />
+          <Popover content={content} title={null} trigger="click">
+            <Button className="text" type="link" onClick={sort}>
+              Сортировать
+            </Button>
+          </Popover>
+        </div>
+        {!loading ? (
+          <>
+            <div className="allLibsContainer">
               <List
                 dataSource={libs}
                 renderItem={(item) => (
@@ -109,13 +111,13 @@ export default function LibsComponent() {
                   </List.Item>
                 )}
               ></List>
-            </>
-          ) : (
-            <div className="spin">
-              <Spin />
             </div>
-          )}
-        </div>
+          </>
+        ) : (
+          <div className="spin">
+            <Spin />
+          </div>
+        )}
       </div>
     </>
   );
