@@ -1,11 +1,18 @@
-import { SET_ALL_LIBS, LOADING, FILTERED } from "./actionTypes";
+import { SET_ALL_LIBS, LOADING, FILTERED, ActionTypes } from "./actionTypes";
+import { Ilib } from "../interfaces";
+import { ThunkAction } from "redux-thunk";
 
-const initialState = {
+export type StateType = {
+  allLibs: Ilib[];
+  loading: boolean;
+};
+
+const initialState: StateType = {
   allLibs: [],
   loading: false,
 };
 
-export default function reducer(state = initialState, action) {
+export default function reducer(state = initialState, action: ActionTypes):StateType {
   switch (action.type) {
     case LOADING:
       return {

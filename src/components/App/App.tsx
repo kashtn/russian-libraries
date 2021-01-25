@@ -6,7 +6,9 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 function App() {
   return (
     <>
-      <Router history>
+      <Router 
+      // history
+      >
         <Switch>
           <Route path="/library/:order">
             <Library />

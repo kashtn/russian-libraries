@@ -1,11 +1,12 @@
 import { createStore, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
+import { useDispatch } from "react-redux";
 import reducer from "./reducer";
 import thunkMiddleware from "redux-thunk";
 
-const PreloadedState = window.localStorage.getItem("redux") || "{}";
+const PreloadedState: string = window.localStorage.getItem("redux") || "{}";
 
-const store = createStore(
+export const store = createStore(
   reducer,
   JSON.parse(PreloadedState),
   composeWithDevTools(applyMiddleware(thunkMiddleware))
@@ -15,4 +16,7 @@ store.subscribe(() => {
   window.localStorage.setItem("redux", JSON.stringify(store.getState()));
 });
 
-export default store;
+export type AppState = ReturnType<typeof reducer>;
+
+export type AppDispatch = typeof store.dispatch;
+export const useAppDispatch = () => useDispatch<AppDispatch>();
